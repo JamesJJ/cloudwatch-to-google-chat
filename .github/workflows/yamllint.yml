@@ -1,0 +1,37 @@
+---
+name: YAML
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  job1:
+    name: yamllint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: yamllint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          config_data: |
+            extends: default
+            rules:
+              comments:
+                require-starting-space: false
+              comments-indentation: disable
+              truthy:
+                check-keys: false
+              line-length: disable
+              document-start: disable
+              document-end: disable
+              empty-lines:
+                max: 2
+                max-end: 2
+              brackets:
+                min-spaces-inside: 0
+                max-spaces-inside: 4
