@@ -1,4 +1,4 @@
-module github.com/jamesjj/sns-to-chat
+module github.com/jamesjj/cloudwatch-to-google-chat
 
 go 1.16
 
