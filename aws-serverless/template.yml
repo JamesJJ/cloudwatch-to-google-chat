@@ -1,22 +1,17 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: &DESC TODO_DESCRIPTION
+Description: &DESC Transfer Cloudwatch Alarms to Google Chat
 Parameters:
-  ApiStageName:
+  ChatWebhookUrl:
     Type: String
-    Default: v1
+  OkImageUrl:
+    Type: String
+  AlertImageUrl:
+    Type: String
+  SnsArn:
+    Type: String
 Resources:
-  Api:
-    Type: AWS::Serverless::Api
-    Properties:
-      Name: !Join ['-', [!Ref AWS::StackName, apigw]]
-      MinimumCompressionSize: 256
-      BinaryMediaTypes:
-        - '*~1*'
-      StageName: !Ref ApiStageName
-      Auth:
-        DefaultAuthorizer: NONE
   Function:
     Type: AWS::Serverless::Function
     Properties:
@@ -31,20 +26,21 @@ Resources:
         - AWSLambdaBasicExecutionRole
       Environment:
         Variables:
-          FOO: !Ref Foo
+          CHAT_WEBHOOK: !Ref ChatWebhookUrl
+          OK_IMAGE_URL: !Ref OkImageUrl
+          ALERT_IMAGE_URL: !Ref AlertImageUrl
       Events:
-        HttpPost:
-          Type: Api
+        SNSEvent:
+          Type: SNS
           Properties:
-            Path: /TODO_path
-            Method: ANY
-            RestApiId: !Ref Api
+            Topic: !Ref SnsArn
+            SqsSubscription: False
   LogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName: !Join ['', [/aws/lambda/, !Ref Function]]
-      RetentionInDays: '90'
+      RetentionInDays: '7'
 Outputs:
-  ApiUrl:
-    Description: API URL
-    Value: !Sub "https://${Api}.execute-api.${AWS::Region}.amazonaws.com/${ApiStageName}/TODO_path"
+  Arn:
+    Description: Function
+    Value: !Ref Function

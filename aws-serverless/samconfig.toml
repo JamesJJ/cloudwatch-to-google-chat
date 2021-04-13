@@ -5,3 +5,5 @@ version = 0.1
 region = "us-west-2"
 capabilities = "CAPABILITY_IAM"
 confirm_changeset = false
+stack_name = "cloudwatch-to-chat"
+s3_prefix = "cloudwatch-to-chat"

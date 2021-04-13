@@ -20,8 +20,6 @@ cd -
 mv "${FUNC_DIR_RELATIVE}/main" ./
 sam deploy \
   --no-confirm-changeset \
-  --parameter-overrides \
-  "ParameterKey=Foo,ParameterValue=${FOO}" \
   $@
 rm -f ./main
 
