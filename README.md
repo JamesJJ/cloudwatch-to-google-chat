@@ -2,10 +2,10 @@
 
 # Cloudwatch Alarms in Google Chat
 
-This is an AWS Lambda function written in Go that receives alarms from AWS cloudwatch and publishes them to a Google Chat chat room.
+This is an AWS Lambda function written in Go that receives alarms from AWS Cloudwatch and publishes them to a Google Chat chat room.
 
 ```
-Your-Service-In-AWS --> Cloudwatch Alarms --> SNS --> This-Lambda --> Google Chat
+Service-In-AWS --> Cloudwatch Alarms --> SNS --> This-Lambda --> Google Chat
 ```
 
 ## Deployment using AWS SAM
