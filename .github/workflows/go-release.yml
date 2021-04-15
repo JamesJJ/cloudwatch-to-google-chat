@@ -1,0 +1,47 @@
+---
+name: Go-Release
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+
+      - name: Build
+        run: |
+          cd function && export GOOS=linux GOARCH=amd64  && \
+          go build -o main && zip "main-$GOOS-$GOARCH.zip" main
+      - name: Release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ github.ref }}
+          tag_name: ${{ github.ref }}
+          # body_path: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./function/main-linux-amd64.zip
+          asset_name: main-linux-amd64.zip
+          asset_content_type: application/zip
+
