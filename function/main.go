@@ -10,7 +10,14 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
+)
+
+var (
+	SuppressableAlertsStateFromTo = map[string]string{
+		"INSUFFICIENT_DATA": "OK",
+	}
 )
 
 func handleRequest(request events.SNSEvent) error {
@@ -20,6 +27,18 @@ func handleRequest(request events.SNSEvent) error {
 	if err != nil {
 		log.Printf("ERROR: %v\n", err)
 		return nil // Non-retryable error
+	}
+
+	if suppress, err := strconv.ParseBool(os.Getenv("SUPPRESS_UNKNOWN_TO_OK")); err == nil && suppress {
+		if SuppressableAlertsStateFromTo[cloudwatchAlarm.OldStateValue] == cloudwatchAlarm.NewStateValue {
+			log.Printf(
+				"Alarm suppressed for %s --> %s \"%s\"",
+				cloudwatchAlarm.OldStateValue,
+				cloudwatchAlarm.NewStateValue,
+				cloudwatchAlarm.AlarmName,
+			)
+			return nil
+		}
 	}
 
 	log.Printf(
