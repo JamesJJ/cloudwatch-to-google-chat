@@ -22,6 +22,8 @@ jobs:
       - name: Build
         run: |
           cd function && export GOOS=linux GOARCH=amd64  && \
+          sed -i "s|CloudWatchToGChat/v0.0.0|CloudWatchToGChat/${GITHUB_REF:-v0.0.0}|" main.go && \
+          grep "CloudWatchToGChat/" main.go && \
           go build -o main && zip "main-$GOOS-$GOARCH.zip" main
       - name: Release
         uses: actions/create-release@v1
@@ -34,6 +36,7 @@ jobs:
           # body_path: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REF: ${{ github.ref }}
 
       - name: Artifact
         uses: actions/upload-release-asset@v1
