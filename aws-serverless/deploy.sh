@@ -4,6 +4,7 @@ set -eou pipefail
 
 SAM_DIR="$(dirname "$0")"
 FUNC_DIR_RELATIVE="../function"
+APP="bootstrap"
 
 cd "${SAM_DIR}"
 
@@ -14,14 +15,14 @@ if [ ! -f "${SANITY}" ] ; then
 fi
 
 cd "${FUNC_DIR_RELATIVE}"
-GOOS=linux GOARCH=amd64 go build -o main
+GOOS=linux GOARCH=arm64 go build -tags lambda.norpc -o "${APP}"
+zip "${APP}.zip" "${APP}"
+rm -f "${APP}"
 cd -
 
-mv "${FUNC_DIR_RELATIVE}/main" ./
-sam deploy \
-  --no-confirm-changeset \
-  $@
-rm -f ./main
+mv "${FUNC_DIR_RELATIVE}/${APP}.zip" ./
+sam deploy --tags "project=cloudwatch_to_google_chat" $@
+rm -f "${APP}.zip"
 
 
 
