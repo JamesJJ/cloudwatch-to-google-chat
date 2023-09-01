@@ -13,12 +13,12 @@ jobs:
     name: Style
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.16
+          go-version: 1.21
 
       - name: Format Check
         run: cd function && if [ $(gofmt -l -s . | grep -E -v '^vendor/' | tee /tmp/gofmt.txt
@@ -29,18 +29,18 @@ jobs:
     name: Functionality
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.16
+          go-version: 1.21
 
       - name: Build
-        run: cd function && go build -v ./...
+        run: cd function && go build -v -tags lambda.norpc ./...
 
       - name: Test
-        run: cd function && go test -v -covermode="count" -coverprofile="/tmp/coverage.out"
+        run: cd function && go test -v -tags lambda.norpc -covermode="count" -coverprofile="/tmp/coverage.out"
 
       - name: Coverage Report
         run: cd function && go tool cover -func="/tmp/coverage.out"

@@ -15,9 +15,11 @@ Resources:
   Function:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: main
-      Runtime: go1.x
-      CodeUri: .
+      Handler: bootstrap
+      Runtime: provided.al2
+      Architectures:
+        - arm64
+      CodeUri: ./bootstrap.zip
       FunctionName: !Join ['-', [!Ref AWS::StackName, lambda]]
       Description: *DESC
       Timeout: 30
