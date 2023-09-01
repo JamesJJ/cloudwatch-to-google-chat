@@ -1,4 +1,4 @@
-![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/jamesjj/cloudwatch-to-google-chat/function) ![GitHub](https://img.shields.io/github/license/jamesjj/cloudwatch-to-google-chat?) ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/jamesjj/cloudwatch-to-google-chat) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/jamesjj/cloudwatch-to-google-chat/go.yml?branch=main)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/jamesjj/cloudwatch-to-google-chat?filename=function/go.mod) ![GitHub](https://img.shields.io/github/license/jamesjj/cloudwatch-to-google-chat?) ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/jamesjj/cloudwatch-to-google-chat) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/jamesjj/cloudwatch-to-google-chat/go.yml?branch=main)
 
 # Cloudwatch Alarms in Google Chat
 
