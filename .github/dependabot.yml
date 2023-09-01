@@ -6,6 +6,6 @@
 version: 2
 updates:
   - package-ecosystem: "gomod" # See documentation for possible values
-    directory: "/function/" # Location of package manifests
+    directory: "/function" # Location of package manifests
     schedule:
       interval: "monthly"
